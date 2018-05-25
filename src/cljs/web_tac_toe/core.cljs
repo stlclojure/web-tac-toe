@@ -4,15 +4,48 @@
               [accountant.core :as accountant]))
 
 ;; -------------------------
+;; Model
+
+(def board-state
+  (atom [[:empty :empty :empty]
+         [:empty :empty :empty]
+         [:empty :empty :empty]]))
+
+(def current-turn
+  (atom :x))
+
+(defn play! [col-number row-number]
+  (locking current-turn
+    (swap! board-state assoc-in [row-number col-number] @current-turn)
+    (case @current-turn
+      :x (reset! current-turn :o)
+      :o (reset! current-turn :x))))
+
+;; -------------------------
 ;; Views
 
-(defn home-page []
-  [:div [:h2 "Welcome to web-tac-toe"]
-   [:div [:a {:href "/about"} "go to about page"]]])
+(defn cell-value-to-string [cell-value]
+  (case cell-value
+    :x "X"
+    :o "O"
+    :empty ""))
 
-(defn about-page []
-  [:div [:h2 "About web-tac-toe"]
-   [:div [:a {:href "/"} "go to the home page"]]])
+(defn home-page []
+  [:div {:class "board"}
+   [:table
+    (vec
+      (cons
+        :tbody
+        (vec
+          (map-indexed (fn [row-number board-row]
+                         (vec
+                           (cons
+                             :tr
+                             (vec
+                               (map-indexed (fn [col-number value]
+                                              [:td {:on-click #(play! col-number row-number)} (cell-value-to-string value)])
+                                            board-row)))))
+                       @board-state))))]])
 
 ;; -------------------------
 ;; Routes
@@ -24,9 +57,6 @@
 
 (secretary/defroute "/" []
   (reset! page #'home-page))
-
-(secretary/defroute "/about" []
-  (reset! page #'about-page))
 
 ;; -------------------------
 ;; Initialize app

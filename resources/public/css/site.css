@@ -1,8 +1,5 @@
 .body-container {
   font-family: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: 72px;
   -webkit-font-smoothing: antialiased;
   font-size: 1.125em;
   color: #333;
@@ -32,3 +29,39 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+div.board > table {
+  border-collapse: collapse;
+}
+
+div.board > table td {
+  width: 3em;
+  height: 3em;
+  vertical-align: middle;
+  text-align: center;
+}
+
+div.board > table tr:nth-child(2) td:nth-child(1) {
+  border-right: 1px solid #319db3;
+  border-top: 1px solid #319db3;
+  border-bottom: 1px solid #319db3;
+}
+
+div.board > table tr:nth-child(2) td:nth-child(3) {
+  border-left: 1px solid #319db3;
+  border-top: 1px solid #319db3;
+  border-bottom: 1px solid #319db3;
+}
+
+div.board > table tr:nth-child(1) td:nth-child(2) {
+  border-right: 1px solid #319db3;
+  border-left: 1px solid #319db3;
+  border-bottom: 1px solid #319db3;
+}
+
+div.board > table tr:nth-child(3) td:nth-child(2) {
+  border-right: 1px solid #319db3;
+  border-left: 1px solid #319db3;
+  border-top: 1px solid #319db3;
+}
+
