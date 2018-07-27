@@ -25,11 +25,25 @@
     :x (reset! current-turn :o)
     :o (reset! current-turn :x)))
 
+(defn- end-game []
+  (js/alert "Winner declared (I don't know who, but hey, you win, bud!)"))
+
+(defn- board-full? []
+  (-> @board-state flatten frequencies :empty nil?))
+
+(defn- game-over? []
+  (or (board-full?)))
+
+(defn- advance-game []
+  (if (game-over?)
+    (end-game)
+    (next-turn)))
+
 (defn play! [row-number col-number]
   (locking current-turn
     (when (empty-cell? row-number col-number)
       (mark-cell row-number col-number)
-      (next-turn))))
+      (advance-game))))
 
 ;; -------------------------
 ;; Views
