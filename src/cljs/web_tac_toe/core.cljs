@@ -14,12 +14,16 @@
 (def current-turn
   (atom :x))
 
-(defn play! [col-number row-number]
+(defn- empty-cell? [row-number col-number]
+  (= :empty (get-in @board-state [row-number col-number])))
+
+(defn play! [row-number col-number]
   (locking current-turn
-    (swap! board-state assoc-in [row-number col-number] @current-turn)
-    (case @current-turn
-      :x (reset! current-turn :o)
-      :o (reset! current-turn :x))))
+    (when (empty-cell? row-number col-number)
+      (swap! board-state assoc-in [row-number col-number] @current-turn)
+      (case @current-turn
+        :x (reset! current-turn :o)
+        :o (reset! current-turn :x)))))
 
 ;; -------------------------
 ;; Views
