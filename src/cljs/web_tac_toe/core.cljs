@@ -24,28 +24,25 @@
 ;; -------------------------
 ;; Views
 
-(defn cell-value-to-string [cell-value]
+(defn- cell-value-to-string [cell-value]
   (case cell-value
     :x "X"
     :o "O"
     :empty ""))
 
+(defn- draw-cell [row-number col-number value]
+  [:td {:on-click #(play! row-number col-number)} (cell-value-to-string value)])
+
+(defn- col->html [drawer container-element col]
+  (->> (map-indexed drawer col) vec (cons container-element) vec))
+
+(defn- draw-row [row-number board-row]
+  (col->html #(draw-cell row-number %1 %2) :tr board-row))
+
 (defn home-page []
   [:div {:class "board"}
    [:table
-    (vec
-      (cons
-        :tbody
-        (vec
-          (map-indexed (fn [row-number board-row]
-                         (vec
-                           (cons
-                             :tr
-                             (vec
-                               (map-indexed (fn [col-number value]
-                                              [:td {:on-click #(play! col-number row-number)} (cell-value-to-string value)])
-                                            board-row)))))
-                       @board-state))))]])
+    (col->html draw-row :tbody @board-state)]])
 
 ;; -------------------------
 ;; Routes
