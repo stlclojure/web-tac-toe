@@ -13,3 +13,6 @@ pom.xml.asc
 *.log
 /.env
 /.sass-cache
+/.cljs_nashorn_repl
+/.rebel_readline_history
+/nashorn_code_cache
