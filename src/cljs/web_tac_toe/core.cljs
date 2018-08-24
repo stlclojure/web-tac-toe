@@ -1,7 +1,8 @@
 (ns web-tac-toe.core
     (:require [reagent.core :as reagent :refer [atom]]
               [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]))
+              [accountant.core :as accountant]
+              [web-tac-toe.macros :refer-macros [winner?]]))
 
 ;; -------------------------
 ;; Model
@@ -32,7 +33,9 @@
   (-> @board-state flatten frequencies :empty nil?))
 
 (defn- game-over? []
-  (or (board-full?)))
+  (or (winner? @board-state :x)
+      (winner? @board-state :o)
+      (board-full?)))
 
 (defn- advance-game []
   (if (game-over?)

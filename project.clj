@@ -15,6 +15,7 @@
                  [yogthos/config "1.1.1"]
                  [org.clojure/clojurescript "1.10.238"
                   :scope "provided"]
+                 [org.clojure/core.match "0.3.0-alpha5"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]]
